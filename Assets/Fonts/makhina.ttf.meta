@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 1b82c27771f8b3d4f9569f6e9d2ea974
+timeCreated: 1490702875
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Makhina
+  fontNames:
+  - Makhina
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
