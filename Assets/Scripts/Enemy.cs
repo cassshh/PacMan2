@@ -22,17 +22,17 @@ public class Enemy : MonoBehaviour
     void FixedUpdate()
     {
         Vector2 lineCastPos = myTrans.position.toVector2() - myTrans.right.toVector2() * (myWidth / 400)+ Vector2.up * (myHeight / 400);
-        Debug.DrawLine(lineCastPos, lineCastPos + Vector2.down * 5f);
-        RaycastHit2D playerDown = Physics2D.Linecast(lineCastPos, lineCastPos + Vector2.down * 5f, PlayerMask);
+        Debug.DrawLine(lineCastPos, lineCastPos + Vector2.down * 20f);
+        RaycastHit2D playerDown = Physics2D.Linecast(lineCastPos, lineCastPos + Vector2.down * 20f, PlayerMask);
 
-        Debug.DrawLine(lineCastPos, lineCastPos - Vector2.down * 5f);
-        RaycastHit2D playerUp = Physics2D.Linecast(lineCastPos, lineCastPos - Vector2.down * 5f, PlayerMask);
+        Debug.DrawLine(lineCastPos, lineCastPos - Vector2.down * 20f);
+        RaycastHit2D playerUp = Physics2D.Linecast(lineCastPos, lineCastPos - Vector2.down * 20f, PlayerMask);
         
-        Debug.DrawLine(lineCastPos, lineCastPos - myTrans.right.toVector2() * 5f);
-        RaycastHit2D playerLeft = Physics2D.Linecast(lineCastPos, lineCastPos - myTrans.right.toVector2() * 5f, PlayerMask);
+        Debug.DrawLine(lineCastPos, lineCastPos - myTrans.right.toVector2() * 20f);
+        RaycastHit2D playerLeft = Physics2D.Linecast(lineCastPos, lineCastPos - myTrans.right.toVector2() * 20f, PlayerMask);
 
-        Debug.DrawLine(lineCastPos, lineCastPos + myTrans.right.toVector2() * 5f);
-        RaycastHit2D playerRight = Physics2D.Linecast(lineCastPos, lineCastPos + myTrans.right.toVector2() * 5f, PlayerMask);
+        Debug.DrawLine(lineCastPos, lineCastPos + myTrans.right.toVector2() * 20f);
+        RaycastHit2D playerRight = Physics2D.Linecast(lineCastPos, lineCastPos + myTrans.right.toVector2() * 20f, PlayerMask);
         
         if ((playerDown.collider != null && playerDown.collider.tag == "Player") || (playerUp.collider != null && playerUp.collider.tag == "Player") || (playerLeft.collider != null && playerLeft.collider.tag == "Player") || (playerRight.collider != null && playerRight.collider.tag == "Player"))
         {
