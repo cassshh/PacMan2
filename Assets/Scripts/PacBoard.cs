@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -24,6 +25,7 @@ public class PacBoard : MonoBehaviour
     public Count workerCount = new Count(3, 7);
     public GameObject[] floorTiles;
     public GameObject[] wallTiles;
+    public GameObject[] outerWallTiles;
     public GameObject[] workerTiles;
 
     private Transform boardHolder;
@@ -33,9 +35,9 @@ public class PacBoard : MonoBehaviour
     {
         gridPositions.Clear();
 
-        for (int x = 0; x <= columns; x++)
+        for (int x = 1; x < columns; x++)
         {
-            for (int y = 0; y <= rows; y++)
+            for (int y = 1; y < rows; y++)
             {
                 gridPositions.Add(new Vector3(x, y, 0f));
             }
@@ -53,7 +55,7 @@ public class PacBoard : MonoBehaviour
                 GameObject toInstantiate = floorTiles[Random.Range(0, floorTiles.Length)];
                 if (x == -1 || x == columns + 1 || y == -1 || y == rows + 1)
                 {
-                    toInstantiate = wallTiles[Random.Range(0, wallTiles.Length)];
+                    toInstantiate = outerWallTiles[Random.Range(0, outerWallTiles.Length)];
                 }
                 GameObject instance = Instantiate(toInstantiate, new Vector3(x, y, 0f), Quaternion.identity);
                 instance.transform.SetParent(boardHolder);
@@ -67,7 +69,7 @@ public class PacBoard : MonoBehaviour
         Vector3 position = gridPositions[random];
         int x = (int) position.x;
         int y = (int) position.y;
-        if (x % 2 == 1 || y % 2 == 1)
+        if (x % 2 != 0 || y % 2 != 0)
         {
             return RandomPosition();
         }
@@ -102,7 +104,6 @@ public class PacBoard : MonoBehaviour
         BoardSetup();
         InitList();
         LayoutAtRandom(workerTiles, workerCount.minimum, workerCount.maximum);
-        LayoutAtRandom(wallTiles, workerCount.minimum, workerCount.maximum);
         FillRestOfGrid(wallTiles);
     }
 
