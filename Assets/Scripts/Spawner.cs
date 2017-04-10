@@ -19,6 +19,9 @@ public class Spawner : MonoBehaviour
     // Use this for initialization
     void Start ()
 	{
+        GameObject taskExec = GameObject.Find("TaskObject");
+        TaskScript taskScript = taskExec.GetComponent<TaskScript>();
+
         int workers = Random.Range(2, 5);
 	    for (int i = 0; i < workers; i++)
 	    {
@@ -26,9 +29,12 @@ public class Spawner : MonoBehaviour
 	        int dir = dirs[rndDir];
             dirs.RemoveAt(rndDir);
 
-            GameObject obj = Instantiate(worker, GetPosition(dir), Quaternion.identity);
+            taskScript.ScheduleTask(new Task(delegate
+            {
+                GameObject obj = Instantiate(worker, GetPosition(dir), Quaternion.identity);
 
-            ((Worker)obj.GetComponent(typeof(Worker))).SetStartDir(dir);
+                ((Worker)obj.GetComponent(typeof(Worker))).SetStartDir(dir);
+            }));
         }
 
 	    Instantiate(ghosts[Random.Range(0, ghosts.Length)], gameObject.transform.position, Quaternion.identity);
@@ -42,7 +48,7 @@ public class Spawner : MonoBehaviour
         {
             case UP:
                 pos.y++;
-                break;
+                break; 
             case RIGHT:
                 pos.x++;
                 break;

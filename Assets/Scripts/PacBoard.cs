@@ -31,6 +31,8 @@ public class PacBoard : MonoBehaviour
     private Transform boardHolder;
     private List<Vector3> gridPositions = new List<Vector3>();
 
+    private System.Random random = new System.Random();
+
     void InitList()
     {
         gridPositions.Clear();
@@ -47,15 +49,15 @@ public class PacBoard : MonoBehaviour
     void BoardSetup()
     {
         boardHolder = new GameObject("Board").transform;
-
+        Debug.Log("wasssaaa");
         for (int x = -1; x <= columns + 1; x++)
         {
             for (int y = -1; y <= rows + 1; y++)
             {
-                GameObject toInstantiate = floorTiles[Random.Range(0, floorTiles.Length)];
+                GameObject toInstantiate = floorTiles[random.Next(0, floorTiles.Length)];
                 if (x == -1 || x == columns + 1 || y == -1 || y == rows + 1)
                 {
-                    toInstantiate = outerWallTiles[Random.Range(0, outerWallTiles.Length)];
+                    toInstantiate = outerWallTiles[random.Next(0, outerWallTiles.Length)];
                 }
                 GameObject instance = Instantiate(toInstantiate, new Vector3(x, y, 0f), Quaternion.identity);
                 instance.transform.SetParent(boardHolder);
@@ -101,10 +103,22 @@ public class PacBoard : MonoBehaviour
 
     public void SetupScene()
     {
-        BoardSetup();
-        InitList();
-        LayoutAtRandom(workerTiles, workerCount.minimum, workerCount.maximum);
-        FillRestOfGrid(wallTiles);
+        GameObject taskExec = GameObject.Find("TaskObject");
+        TaskScript taskScript = taskExec.GetComponent<TaskScript>();
+        taskScript.ScheduleTask(new Task(BoardSetup));
+        taskScript.ScheduleTask(new Task(InitList));
+        taskScript.ScheduleTask(new Task(delegate
+        {
+            LayoutAtRandom(workerTiles, workerCount.minimum, workerCount.maximum);
+        }));
+        taskScript.ScheduleTask(new Task(delegate
+        {
+            FillRestOfGrid(wallTiles);
+        }));
+
+        //InitList();
+        //LayoutAtRandom(workerTiles, workerCount.minimum, workerCount.maximum);
+        //FillRestOfGrid(wallTiles);
     }
 
 
