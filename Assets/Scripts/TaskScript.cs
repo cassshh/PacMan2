@@ -25,7 +25,7 @@ public class TaskScript : MonoBehaviour {
     {
         lock (_queueLock)
         {
-            if (TaskQueue.Count < 100)
+            if (TaskQueue.Count < 1000)
             {
                 TaskQueue.Enqueue(task);
                 Debug.Log("Added Task");

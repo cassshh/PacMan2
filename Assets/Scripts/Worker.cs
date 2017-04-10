@@ -19,7 +19,7 @@ public class Worker : MovingObject
     private bool start = false;
     private bool hasMoved = false;
 
-    public void SetStartDir(int dir)
+    public void StartWorker(int dir)
     {
         currentDir = dir;
         stepsLeft = GetSteps();

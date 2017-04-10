@@ -33,7 +33,7 @@ public class Spawner : MonoBehaviour
             {
                 GameObject obj = Instantiate(worker, GetPosition(dir), Quaternion.identity);
 
-                ((Worker)obj.GetComponent(typeof(Worker))).SetStartDir(dir);
+                ((Worker)obj.GetComponent(typeof(Worker))).StartWorker(dir);
             }));
         }
 
