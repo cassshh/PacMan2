@@ -3,22 +3,17 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class Scrolllist : MonoBehaviour {
-	// Use this for initialization
 
-	private static Scrolllist instance5;
+	private static Scrolllist instance;
 	
 	public static Scrolllist Instance
 	{
-		get { return instance5; }
+		get { return instance; }
 	}
 	void Awake() {
-		
-		//DontDestroyOnLoad (gameObject);
-		// If no Player ever existed, we are it.
-		if (instance5 == null)
-			instance5 = this;
-		// If one already exist, it's because it came from another level.
-		else if (instance5 != this) {
+		if (instance == null)
+			instance = this;
+		else if (instance != this) {
 			Destroy (gameObject);
 			return;
 		}
@@ -41,7 +36,6 @@ public class Scrolllist : MonoBehaviour {
 
 	public void getScrollEntrys()
 	{
-		//Destroy Objects that exists, because of a possible Call bevore
 		foreach (Transform childTransform in ScrollContain.transform) Destroy(childTransform.gameObject);
 
 		int j = 1;

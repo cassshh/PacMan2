@@ -5,20 +5,19 @@ using UnityEngine.UI;
 
 public class HSController : MonoBehaviour
 {
-	private static HSController instance6;
+	private static HSController instance;
 	
 	public static HSController Instance
 	{
-		get { return instance6; }
+		get { return instance; }
 	}
 	void Awake() {
 		
 		DontDestroyOnLoad (gameObject);
 		// If no Player ever existed, we are it.
-		if (instance6 == null)
-			instance6 = this;
-		// If one already exist, it's because it came from another level.
-		else if (instance6 != this) {
+		if (instance == null)
+			instance = this;
+		else if (instance != this) {
 			Destroy (gameObject);
 			return;
 		}
@@ -28,13 +27,10 @@ public class HSController : MonoBehaviour
 	void Start(){
 		startGetScores ();
 		startPostScores ();
-
-		//
-		//HSController.Instance.startGetScores ();
 	}
 
-	private string secretKey = "123456789"; // Edit this value and make sure it's the same as the one stored on the server
-	string addScoreURL = "techsupport-hardenberg.nl/addscore.php?"; //be sure to add a ? to your url
+	private string secretKey = "123456789"; 
+	string addScoreURL = "techsupport-hardenberg.nl/addscore.php?";
 	string highscoreURL = "techsupport-hardenberg.nl/display.php?";
 	public string uniqueID;
 	public string name3;
@@ -88,28 +84,21 @@ public class HSController : MonoBehaviour
 		return hashString.PadLeft(32, '0');
 	}
 	
-	// remember to use StartCoroutine when calling this function!
+
 	IEnumerator PostScores()
 	{
 		updateOnlineHighscoreData ();
-		//This connects to a server side php script that will add the name and score to a MySQL DB.
-		// Supply it with a string representing the players name and the players score.
 		string hash = Md5Sum(name3 + score + secretKey);
 		//string post_url = addScoreURL + "name=" + WWW.EscapeURL(name) + "&score=" + score + "&hash=" + hash;
 		string post_url = addScoreURL + "uniqueID=" + uniqueID+ "&name=" + WWW.EscapeURL (name3) + "&score=" + score+ "&hash=" + hash;
-		//Debug.Log ("post url " + post_url);
-		// Post the URL to the site and create a download object to get the result.
 		WWW hs_post = new WWW("http://"+post_url);
-		yield return hs_post; // Wait until the download is done
-		
+		yield return hs_post; 
 		if (hs_post.error != null)
 		{
 			print("There was an error posting the high score: " + hs_post.error);
 		}
 	}
-	
-	// Get the scores from the MySQL DB to display in a GUIText.
-	// remember to use StartCoroutine when calling this function!
+
 	IEnumerator GetScores()
 	{
 
@@ -123,19 +112,11 @@ public class HSController : MonoBehaviour
 		if (hs_get.error != null)
 		{
 			//Debug.Log("There was an error getting the high score: " + hs_get.error);
-
 		}
 		else
 		{
-
-			//Change .text into string to use Substring and Split
 			string help = hs_get.text;
-
-			//help= help.Substring(5, hs_get.text.Length-5);
-			//200 is maximum length of highscore - 100 Positions (name+score)
-
 			onlineHighscore  = help.Split(";"[0]);
-
 		}
 		Scrolllist.Instance.loading = false;
 		Scrolllist.Instance.getScrollEntrys ();
