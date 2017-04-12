@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class sceneManager : MonoBehaviour {
-	public GameObject LobbyManager;
 	// Use this for initialization
 	void Start () {
 		
@@ -17,10 +16,16 @@ public class sceneManager : MonoBehaviour {
 
 	public void multiplayerOnclick(){
 		SceneManager.LoadScene(1);
-		LobbyManager.SetActive (true);
+
 	}
 
 	public void menuOnclick(){
 		SceneManager.LoadScene(0);
 	}
+
+    public void SinglePlayerOnclick()
+    {
+        SceneManager.LoadScene(2);
+    }
+
 }
