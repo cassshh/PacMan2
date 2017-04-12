@@ -9,7 +9,12 @@ public class EnemyFollow : MonoBehaviour {
 
     void Start()
     {
+        this.GetComponent<Rigidbody2D>().freezeRotation = true;
         Player = GameObject.Find("Player");
+        if (!Player)
+        {
+            Player = GameObject.Find("Player(Clone)");
+        }
     }
 
     void Update()
