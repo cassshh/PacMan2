@@ -14,6 +14,7 @@ public class EnemyFollow : MonoBehaviour {
 
     void Update()
     {
+        if (!GameManager.startWorking) return;
         if (Player)
         {
             transform.position = Vector2.MoveTowards(transform.position, Player.transform.position, speed * Time.deltaTime);

@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 public class Spawner : MonoBehaviour
 {
 
-    private List<int> dirs = new List<int>{UP,RIGHT,DOWN,LEFT};
+    private List<int> dirs = new List<int> { UP, RIGHT, DOWN, LEFT };
     public GameObject worker;
     public GameObject[] ghosts;
 
@@ -17,16 +17,16 @@ public class Spawner : MonoBehaviour
     private const int LEFT = 3;
 
     // Use this for initialization
-    void Start ()
-	{
+    void Start()
+    {
         GameObject taskExec = GameObject.Find("TaskObject");
         TaskScript taskScript = taskExec.GetComponent<TaskScript>();
 
         int workers = Random.Range(2, 5);
-	    for (int i = 0; i < workers; i++)
-	    {
-	        int rndDir = Random.Range(0, dirs.Count);
-	        int dir = dirs[rndDir];
+        for (int i = 0; i < workers; i++)
+        {
+            int rndDir = Random.Range(0, dirs.Count);
+            int dir = dirs[rndDir];
             dirs.RemoveAt(rndDir);
 
             taskScript.ScheduleTask(new Task(delegate
@@ -37,7 +37,7 @@ public class Spawner : MonoBehaviour
             }));
         }
 
-	    Instantiate(ghosts[Random.Range(0, ghosts.Length)], gameObject.transform.position, Quaternion.identity);
+        Instantiate(ghosts[Random.Range(0, ghosts.Length)], gameObject.transform.position, Quaternion.identity);
         gameObject.SetActive(false);
     }
 
@@ -48,7 +48,7 @@ public class Spawner : MonoBehaviour
         {
             case UP:
                 pos.y++;
-                break; 
+                break;
             case RIGHT:
                 pos.x++;
                 break;

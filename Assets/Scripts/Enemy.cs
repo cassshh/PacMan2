@@ -21,6 +21,7 @@ public class Enemy : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!GameManager.startWorking) return;
         Vector2 lineCastPos = myTrans.position.toVector2() - myTrans.right.toVector2() * (myWidth / 400)+ Vector2.up * (myHeight / 400);
         Debug.DrawLine(lineCastPos, lineCastPos + Vector2.down * 20f);
         RaycastHit2D playerDown = Physics2D.Linecast(lineCastPos, lineCastPos + Vector2.down * 20f, PlayerMask);

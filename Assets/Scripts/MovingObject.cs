@@ -10,9 +10,9 @@ public abstract class MovingObject : MonoBehaviour
     public float moveTime = 0.1f;
     public LayerMask blockingLayer;
 
-    private BoxCollider2D boxCollider;
-    private Rigidbody2D rb2D;
-    private float inverseMoveTime;
+    protected BoxCollider2D boxCollider;
+    protected Rigidbody2D rb2D;
+    protected float inverseMoveTime;
 
 	// Use this for initialization
 	protected virtual void Start ()
@@ -51,7 +51,7 @@ public abstract class MovingObject : MonoBehaviour
             OnCantMove(hitComponent);
     }
 
-    protected IEnumerator SmoothMovement(Vector3 end)
+    protected virtual IEnumerator SmoothMovement(Vector3 end)
     {
         float sqrRemainingDistance = (transform.position - end).sqrMagnitude;
 

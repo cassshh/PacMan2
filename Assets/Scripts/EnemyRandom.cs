@@ -28,6 +28,7 @@ public class EnemyRandom : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (!GameManager.startWorking) return;
         Vector2 lineCastPos = myTrans.position.toVector2() - myTrans.right.toVector2() * (myWidth / 400) +
                               Vector2.up * (myHeight / 400);
         Debug.DrawLine(lineCastPos, lineCastPos + Vector2.down * 0.4f);

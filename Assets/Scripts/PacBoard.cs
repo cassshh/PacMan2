@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -27,6 +28,7 @@ public class PacBoard : MonoBehaviour
     public GameObject[] wallTiles;
     public GameObject[] outerWallTiles;
     public GameObject[] workerTiles;
+    public GameObject player;
 
     private Transform boardHolder;
     private List<Vector3> gridPositions = new List<Vector3>();
@@ -69,8 +71,8 @@ public class PacBoard : MonoBehaviour
     {
         int random = Random.Range(0, gridPositions.Count);
         Vector3 position = gridPositions[random];
-        int x = (int) position.x;
-        int y = (int) position.y;
+        int x = (int)position.x;
+        int y = (int)position.y;
         if (x % 2 != 0 || y % 2 != 0)
         {
             return RandomPosition();
@@ -93,13 +95,20 @@ public class PacBoard : MonoBehaviour
 
     void FillRestOfGrid(GameObject[] tiles)
     {
-        foreach (Vector3 gridPosition in gridPositions)
+        for (int i = 0; i < gridPositions.Count; i++)
         {
+            int j = i;
+            int count = gridPositions.Count;
+            Vector3 gridPosition = gridPositions[i];
             taskScript.ScheduleTask(new Task(delegate
             {
                 GameObject overlay = tiles[Random.Range(0, tiles.Length)];
                 overlay.GetComponent<SpriteRenderer>().sortingLayerName = "Items";
                 Instantiate(overlay, gridPosition, Quaternion.identity);
+                if (j == (count - 1))
+                {
+                    GameManager.startWorking = true;
+                }
             }));
         }
     }
@@ -114,21 +123,7 @@ public class PacBoard : MonoBehaviour
         {
             LayoutAtRandom(workerTiles, workerCount.minimum, workerCount.maximum);
             FillRestOfGrid(wallTiles);
+            Instantiate(player, new Vector3(0, 0, 0f), Quaternion.identity);
         }));
-
-        //InitList();
-        //LayoutAtRandom(workerTiles, workerCount.minimum, workerCount.maximum);
-        //FillRestOfGrid(wallTiles);
-    }
-
-
-    // Use this for initialization
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
     }
 }

@@ -10,7 +10,7 @@ public class Worker : MovingObject
     private const int RIGHT = 1;
     private const int DOWN = 2;
     private const int LEFT = 3;
-    
+
     private int currentDir = 0;
     private int stepsLeft = 0;
 
@@ -18,6 +18,9 @@ public class Worker : MovingObject
 
     private bool start = false;
     private bool hasMoved = false;
+
+    public GameObject spawnItem;
+    public GameObject spawnOnDeath;
 
     public void StartWorker(int dir)
     {
@@ -45,7 +48,7 @@ public class Worker : MovingObject
             {
                 if (stepsLeft <= 0)
                 {
-                        NewDirection();
+                    NewDirection();
                 }
                 Move(currentDir);
                 stepsLeft--;
@@ -125,6 +128,16 @@ public class Worker : MovingObject
         if (canMove)
         {
             gameObject.SetActive(false);
+            int r = Random.Range(0, 5);
+            if (r == 0)
+            {
+                Instantiate(spawnOnDeath, gameObject.transform.position,
+                Quaternion.identity);
+            }
+            else
+            {
+                Instantiate(spawnItem, gameObject.transform.position, Quaternion.identity);
+            }
             return;
         }
         if (hit.transform == null)
@@ -152,6 +165,8 @@ public class Worker : MovingObject
         Wall wall = component as Wall;
         Vector2 pos = wall.transform.position;
         wall.RemoveWall();
+
+        Instantiate(spawnItem, gameObject.transform.position, Quaternion.identity);
 
         StartCoroutine(SmoothMovement(pos));
     }
